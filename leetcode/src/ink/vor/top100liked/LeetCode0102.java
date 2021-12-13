@@ -17,34 +17,23 @@ public class LeetCode0102 {
         System.out.println(Arrays.toString(resList.toArray()));
     }
 
-    public static HashMap<Integer, List<Integer>> levelMap;
+    public static List<List<Integer>> resList;
     public static List<List<Integer>> levelOrder(TreeNode root) {
-        levelMap = new HashMap<>();
-        List<List<Integer>> resList = new ArrayList<>();
+        resList = new ArrayList<>();
         if (root == null) {
             return resList;
         }
         recursiveLevel(root, 1);
-        ArrayList<Integer> keyList= new ArrayList<>(levelMap.keySet());
-        Collections.sort(keyList, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1>o2?1:-1;
-            }
-        });
-        for (int i: keyList) {
-            resList.add(levelMap.get(i));
-        }
         return resList;
     }
 
     public static void recursiveLevel(TreeNode node, int level) {
-        if (levelMap.get(level) == null) {
+        if (level > resList.size()) {
             List<Integer> tempList = new ArrayList<>();
             tempList.add(node.val);
-            levelMap.put(level, tempList);
+            resList.add(tempList);
         } else {
-            levelMap.get(level).add(node.val);
+            resList.get(level - 1).add(node.val);
         }
         if (node.left != null) {
             recursiveLevel(node.left, level + 1);
