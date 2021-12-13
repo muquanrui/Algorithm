@@ -23,11 +23,11 @@ public class LeetCode0046 {
         resList = new ArrayList<>();
         tempList = new ArrayList<>();
         isVistied = new int[nums.length];
-        recursivePermuste(nums);
+        recursivePermute(nums);
         return resList;
     }
 
-    public static void recursivePermuste(int[] nums) {
+    public static void recursivePermute(int[] nums) {
         if (tempList.size() == nums.length) {
             resList.add(new ArrayList<>(tempList));
             return;
@@ -36,7 +36,7 @@ public class LeetCode0046 {
             if (isVistied[i] == 0) {
                 isVistied[i] = 1;
                 tempList.add(nums[i]);
-                recursivePermuste(nums);
+                recursivePermute(nums);
                 isVistied[i] = 0;
                 tempList.remove(tempList.size() - 1);
             }
