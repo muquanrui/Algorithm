@@ -33,7 +33,7 @@ public class LeetCode0094 {
         List<Integer> resList = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
         TreeNode cur = root;
-        while (cur != null || !stack.isEmpty()){
+        while (cur != null || !stack.isEmpty()) {
             if (cur != null) {
                 stack.push(cur);
                 cur = cur.left;

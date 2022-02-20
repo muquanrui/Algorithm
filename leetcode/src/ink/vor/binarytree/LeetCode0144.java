@@ -29,22 +29,22 @@ public class LeetCode0144 {
     //     }
     // }
     public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-        if (root == null){
-            return result;
+        List<Integer> resList = new ArrayList<>();
+        if (root == null) {
+            return resList;
         }
         Stack<TreeNode> stack = new Stack<>();
         stack.push(root);
-        while (!stack.isEmpty()){
-            TreeNode node = stack.pop();
-            result.add(node.val);
-            if (node.right != null){
-                stack.push(node.right);
+        while (!stack.isEmpty()) {
+            TreeNode temp = stack.pop();
+            resList.add(temp.val);
+            if (temp.right != null) {
+                stack.push(temp.right);
             }
-            if (node.left != null){
-                stack.push(node.left);
+            if (temp.left != null) {
+                stack.push(temp.left);
             }
         }
-        return result;
+        return resList;
     }
 }
