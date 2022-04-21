@@ -7,5 +7,9 @@ package ink.vor.sword2offer;
 public class ListNode {
     int val;
     ListNode next;
+
+    public ListNode() {
+    }
+
     ListNode(int x) { val = x; }
 }
