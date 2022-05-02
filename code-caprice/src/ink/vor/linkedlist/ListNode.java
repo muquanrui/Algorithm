@@ -1,4 +1,4 @@
-package ink.vor.array;
+package ink.vor.linkedlist;
 
 /**
  * @author muquanrui
