@@ -19,13 +19,12 @@ public class LeetCode0394 {
                 stack_res.push(res.toString());
                 multi = 0;
                 res = new StringBuilder();
-            }
-            else if(c == ']') {
+            } else if (c == ']') {
                 StringBuilder tmp = new StringBuilder();
                 int cur_multi = stack_multi.pop();
                 for(int i = 0; i < cur_multi; i++) tmp.append(res);
                 res = new StringBuilder(stack_res.pop() + tmp);
-            } else if(c >= '0' && c <= '9') {
+            } else if (c >= '0' && c <= '9') {
                 multi = multi * 10 + Integer.parseInt(c + "");
             } else {
                 res.append(c);
