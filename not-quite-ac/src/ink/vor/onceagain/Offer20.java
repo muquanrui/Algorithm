@@ -10,32 +10,32 @@ package ink.vor.onceagain;
  * 字符串
  */
 public class Offer20 {
-    public boolean isNumber(String s) {
+    public static void main(String[] args) {
+        System.out.println(isNumber(".e1"));
+    }
+
+    public static boolean isNumber(String s) {
         s = s.trim();
         if (s.length() == 0) {
             return false;
         }
-        int point = -1;
-        int e = -1;
+        int iEe = -1;
+        int iDot = -1;
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             if (Character.isDigit(ch)) {
                 continue;
-            } else if (ch == '.') {
-                if (e == -1 && point == -1 &&
-                        ((i > 0 && Character.isDigit(s.charAt(i - 1))) || (i < s.length() - 1 && Character.isDigit(s.charAt(i + 1))))) {
-                    point = i;
-                    continue;
-                }
-            } else if (ch == 'e' || ch == 'E') {
-                if (e == -1 && i > 0 && i < s.length() - 1 && s.charAt(i - 1) != '+' && s.charAt(i - 1) != '-') {
-                    e = i;
-                    continue;
-                }
-            } else if (ch == '+' || ch == '-') {
-                if (i < s.length() - 1 && (i == 0 || (e != -1 && i == e + 1))) {
-                    continue;
-                }
+            }
+            if ((ch == '+' || ch == '-') && (i - 1 == iEe) && i < s.length() - 1) {
+                continue;
+            }
+            if ((ch == 'E' || ch == 'e') && iEe == -1 && i > 0 && i < s.length() - 1 && s.charAt(i - 1) != '+' && s.charAt(i - 1) != '-') {
+                iEe = i;
+                continue;
+            }
+            if (ch == '.' && iDot == -1 && iEe == -1 && ((i > 0 && Character.isDigit(s.charAt(i - 1))) || (i < s.length() - 1 && Character.isDigit(s.charAt(i + 1))))) {
+                iDot = i;
+                continue;
             }
             return false;
         }
