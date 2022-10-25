@@ -1,7 +1,7 @@
 package ink.vor.daily;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * @author muquanrui
@@ -9,57 +9,87 @@ import java.util.*;
  */
 
 public class LeetCode0934 {
-    public int shortestBridge(int[][] grid) {
-        int n = grid.length;
-        int[][] dirs = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-        List<int[]> island = new ArrayList<int[]>();
-        Queue<int[]> queue = new ArrayDeque<int[]>();
+    // 0,0,1,0,1
+    // 0,1,1,0,1
+    // 0,1,0,0,1
+    // 0,0,0,0,0
+    // 0,0,0,0,0
+    public static void main(String[] args) {
+        // [[0,1,0,0,0],[0,1,0,1,1],[0,0,0,0,1],[0,0,0,0,0],[0,0,0,0,0]]
+        int[][] grid = {{0,1,0,0,0},{0,1,0,1,1},{0,0,0,0,1},{0,0,0,0,0}};
+        LeetCode0934 l = new LeetCode0934();
+        System.out.println(l.shortestBridge(grid));;
+    }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                    queue.offer(new int[]{i, j});
-                    grid[i][j] = -1;
-                    while (!queue.isEmpty()) {
-                        int[] cell = queue.poll();
-                        int x = cell[0], y = cell[1];
-                        island.add(cell);
-                        for (int k = 0; k < 4; k++) {
-                            int nx = x + dirs[k][0];
-                            int ny = y + dirs[k][1];
-                            if (nx >= 0 && ny >= 0 && nx < n && ny < n && grid[nx][ny] == 1) {
-                                queue.offer(new int[]{nx, ny});
-                                grid[nx][ny] = -1;
-                            }
-                        }
-                    }
-                    for (int[] cell : island) {
-                        queue.offer(cell);
-                    }
-                    int step = 0;
-                    while (!queue.isEmpty()) {
-                        int sz = queue.size();
-                        for (int k = 0; k < sz; k++) {
-                            int[] cell = queue.poll();
-                            int x = cell[0], y = cell[1];
-                            for (int d = 0; d < 4; d++) {
-                                int nx = x + dirs[d][0];
-                                int ny = y + dirs[d][1];
-                                if (nx >= 0 && ny >= 0 && nx < n && ny < n) {
-                                    if (grid[nx][ny] == 0) {
-                                        queue.offer(new int[]{nx, ny});
-                                        grid[nx][ny] = -1;
-                                    } else if (grid[nx][ny] == 1) {
-                                        return step;
-                                    }
-                                }
-                            }
-                        }
-                        step++;
-                    }
+
+    boolean[][] isVisited;
+    public int shortestBridge(int[][] grid) {
+        isVisited = new boolean[grid.length][grid[0].length];
+        markIsland(grid);
+
+        for (int[] arr : grid) {
+            System.out.println(Arrays.toString(arr));
+        }
+
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 2) {
+                    isVisited = new boolean[grid.length][grid[0].length];
+                    res = Math.min(res, tryConnect(grid, i, j) - 1);
                 }
             }
         }
-        return 0;
+        return res;
+    }
+
+    private void markIsland(int[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    markIsland(grid, i, j, 2);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void markIsland(int[][] grid, int y, int x, int mark) {
+        isVisited[y][x] = true;
+        grid[y][x] = mark;
+        if (y + 1 < grid.length && !isVisited[y + 1][x] && grid[y + 1][x] == 1) {
+            markIsland(grid, y + 1, x, mark);
+        }
+        if (x + 1 < grid[0].length && !isVisited[y][x + 1] && grid[y][x + 1] == 1) {
+            markIsland(grid, y, x + 1, mark);
+        }
+        if (y - 1 >= 0 && !isVisited[y - 1][x] && grid[y - 1][x] == 1) {
+            markIsland(grid, y - 1, x, mark);
+        }
+        if (x - 1 >= 0 && !isVisited[y][x - 1] && grid[y][x - 1] == 1) {
+            markIsland(grid, y, x - 1, mark);
+        }
+    }
+
+    private int tryConnect(int[][] grid, int y, int x) {
+        if (grid[y][x] == 1) {
+            return 0;
+        }
+        isVisited[y][x] = true;
+        int min = Integer.MAX_VALUE - 1;
+        if (y + 1 < grid.length && !isVisited[y + 1][x] && grid[y + 1][x] != 2) {
+            min = Math.min(min, tryConnect(grid, y + 1, x));
+        }
+        if (x + 1 < grid[0].length && !isVisited[y][x + 1] && grid[y][x + 1] != 2) {
+            min = Math.min(min, tryConnect(grid, y, x + 1));
+        }
+        if (y - 1 >= 0 && !isVisited[y - 1][x] && grid[y - 1][x] != 2) {
+            min = Math.min(min, tryConnect(grid, y - 1, x));
+        }
+        if (x - 1 >= 0 && !isVisited[y][x - 1] && grid[y][x - 1] != 2) {
+            min = Math.min(min, tryConnect(grid, y, x - 1));
+        }
+        isVisited[y][x] = false;
+        return min + 1;
     }
 }
