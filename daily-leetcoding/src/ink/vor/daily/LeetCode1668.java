@@ -10,11 +10,6 @@ import java.util.Arrays;
  */
 
 public class LeetCode1668 {
-    public static void main(String[] args) {
-        LeetCode1668 l = new LeetCode1668();
-        l.maxRepeating("aaabaaaabaaabaaaabaaaabaaaabaaaaba", "aaaba");
-    }
-
     public int maxRepeating(String sequence, String word) {
         int[] prefixTable = getPrefixTable(word);
         int[] dp = new int[sequence.length()];
