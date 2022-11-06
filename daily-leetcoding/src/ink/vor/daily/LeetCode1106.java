@@ -7,13 +7,8 @@ import java.util.*;
  * @date 2022/11/5 21:43
  */
 
+// https://leetcode.cn/problems/parsing-a-boolean-expression/
 public class LeetCode1106 {
-
-    public static void main(String[] args) {
-        LeetCode1106 l = new LeetCode1106();
-        System.out.println(l.parseBoolExpr("|(f,f,f,t)"));;
-    }
-
     public boolean parseBoolExpr(String expression) {
         if (expression.equals("t")) {
             return true;
